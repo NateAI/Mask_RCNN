@@ -697,6 +697,11 @@ def refine_detections_graph(rois, probs, deltas, window, config):
         coordinates are normalized.
     """
     # Class IDs per ROI
+    # Find indices where the predicted probability of the region belonging to any class other than BG is at least
+    # equal to the DETECTION_MIN_CONFIDENCE. Then set the background probability for these regions to zero to ensure
+    # that the argmax on the line below does not conclude that these regions are background.
+    detection_indices = np.where(probs[0][:, 1:] > config.DETECTION_MIN_CONFIDENCE)
+    probs[0][detection_indices, 0] = 0
     class_ids = tf.argmax(probs, axis=1, output_type=tf.int32)
     # Class probability of the top class of each ROI
     indices = tf.stack([tf.range(probs.shape[0]), class_ids], axis=1)
