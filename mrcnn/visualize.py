@@ -258,6 +258,7 @@ def draw_rois(image, rois, refined_rois, mask, class_ids, class_names, limit=10)
             masked_image = apply_mask(masked_image, m, color)
 
     ax.imshow(masked_image)
+    plt.show()
 
     # Print stats
     print("Positive ROIs: ", class_ids[class_ids > 0].shape[0])
@@ -456,6 +457,7 @@ def draw_boxes(image, boxes=None, refined_boxes=None,
                 p = Polygon(verts, facecolor="none", edgecolor=color)
                 ax.add_patch(p)
     ax.imshow(masked_image.astype(np.uint8))
+    plt.show()
 
 
 def display_table(table):
