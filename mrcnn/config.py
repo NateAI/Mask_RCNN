@@ -47,6 +47,10 @@ class Config(object):
     # down the training.
     VALIDATION_STEPS = 50
 
+    # The number of epochs interval between checkpoints of model weights
+    # Gets passed as the 'period' param to ModelCheckpoint callback
+    SAVE_WEIGHTS_EVERY = 25
+
     # Backbone network architecture
     # Supported values are: resnet50, resnet101.
     # You can also provide a callable that should have the signature
