@@ -84,7 +84,7 @@ def display_instances(image, boxes, masks, class_ids, class_names,
                       scores=None, title="",
                       figsize=(16, 16), ax=None,
                       show_mask=True, show_bbox=True,
-                      colors=None, captions=None):
+                      colors=None, captions=None, output_path=None):
     """
     boxes: [num_instance, (y1, x1, y2, x2, class_id)] in image coordinates.
     masks: [height, width, num_instances]
@@ -107,7 +107,7 @@ def display_instances(image, boxes, masks, class_ids, class_names,
     # If no axis is passed, create one and automatically call show()
     auto_show = False
     if not ax:
-        _, ax = plt.subplots(1, figsize=figsize)
+        fig, ax = plt.subplots(1, figsize=figsize)
         auto_show = True
 
     # Generate random colors
@@ -163,6 +163,8 @@ def display_instances(image, boxes, masks, class_ids, class_names,
             p = Polygon(verts, facecolor="none", edgecolor=color)
             ax.add_patch(p)
     ax.imshow(masked_image.astype(np.uint8))
+    if output_path:
+        plt.savefig(output_path)
     if auto_show:
         plt.show()
 
@@ -171,7 +173,7 @@ def display_differences(image,
                         gt_box, gt_class_id, gt_mask,
                         pred_box, pred_class_id, pred_score, pred_mask,
                         class_names, title="", ax=None,
-                        show_mask=True, show_box=True,
+                        show_mask=True, show_box=True, output_path=None,
                         iou_threshold=0.5, score_threshold=0.5):
     """Display ground truth and prediction instances on the same image."""
     # Match predictions to ground truth
@@ -202,7 +204,7 @@ def display_differences(image,
         class_names, scores, ax=ax,
         show_bbox=show_box, show_mask=show_mask,
         colors=colors, captions=captions,
-        title=title)
+        title=title, output_path=output_path)
 
 
 def draw_rois(image, rois, refined_rois, mask, class_ids, class_names, limit=10):
